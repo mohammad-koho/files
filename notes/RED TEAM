@@ -1,0 +1,38 @@
+DOMAIN
+# Red Team
+/project/src/accounts       @kohofinancial/redteam
+/project/src/goals          @kohofinancial/redteam
+/project/src/reports        @kohofinancial/redteam
+/project/src/roundups       @kohofinancial/redteam
+
+
+
+
+PROCESSES
+	- kanban 2 weeks
+
+	- retro every other monday
+		- no retro mondya = backend practices
+
+	- backend practices
+		- https://docs.google.com/spreadsheets/d/1vYg_JpjFmV_opFpQa1Xayj3MIjy4ddDsmSOqCcb0J10/edit#gid=0
+
+	- moody eng matrix
+		- https://docs.google.com/spreadsheets/d/1wdmuhYumyiOVJ9744guc-j_fwYHCm-mcWalee_z-8k0/edit#gid=0
+
+	- sprint planning every other friday
+		- week alternating with retros
+
+	- stand up
+		- written
+		- in video
+
+	- one on one
+
+	- KANBAN
+		- few things pinned
+			- read them
+				- def of ready
+				- how to work with kanban
+				- personality test
+					- post in redteam

@@ -1,0 +1,58 @@
+# BASE COMPLETION FILE CAN BE FOUND AT
+# /etc/bashrc runs: /usr/local/etc/profile.d/bash_completion.sh
+#	- this sources /usr/local/Cellar/bash-completion/1.3_3/etc/bash_completion
+
+# /etc/bashrc sources: ~/.bash_completion
+
+# basically a copy of _cd() from etc/bash_completion.
+# However, instead of expanding directories  on CDPATH,
+# we expand directories (and their subdirectories) starting from
+# $KOHOAPI_BASE_PATH/project/src
+_src()
+{
+    local cur IFS=$'\n' i j k
+    _get_comp_words_by_ref cur
+
+    # try to allow variable completion
+    if [[ "$cur" == ?(\\)\$* ]]; then
+        COMPREPLY=( $( compgen -v -P '$' -- "${cur#?(\\)$}" ) )
+        return 0
+    fi
+
+    _compopt_o_filenames
+
+    # Use standard dir completion if no CDPATH or parameter starts with /,
+    # ./ or ../
+	SRC_PATH="${KOHOAPI_BASE_PATH}/project/src"
+    if [[ -z "$SRC_PATH" || "$cur" == ?(.)?(.)/* ]]; then
+        _filedir -d
+        return 0
+    fi
+
+    local -r mark_dirs=$(_rl_enabled mark-directories && echo y)
+    local -r mark_symdirs=$(_rl_enabled mark-symlinked-directories && echo y)
+
+    # we have a SRC_PATH, so loop on its contents
+    for i in ${SRC_PATH//:/$'\n'}; do
+        # create an array of matched subdirs
+        k="${#COMPREPLY[@]}"
+        for j in $( compgen -d $i/$cur ); do
+            if [[ ( $mark_symdirs && -h $j || $mark_dirs && ! -h $j ) && ! -d ${j#$i/} ]]; then
+                j="${j}/"
+            fi
+            COMPREPLY[k++]=${j#$i/}
+        done
+    done
+
+    _filedir -d
+
+    if [[ ${#COMPREPLY[@]} -eq 1 ]]; then
+        i=${COMPREPLY[0]}
+        if [[ "$i" == "$cur" && $i != "*/" ]]; then
+            COMPREPLY[0]="${i}/"
+        fi
+    fi
+
+    return 0
+}
+complete -F _src -o nospace src

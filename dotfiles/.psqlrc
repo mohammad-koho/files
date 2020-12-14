@@ -1,0 +1,27 @@
+-- Set explicit string for null value
+\pset null '(null)'
+
+-- Don't add duplicates and commands starting with a space to the history
+\set HISTCONTROL ignoreboth
+
+-- Infinitely large command history
+\set HISTSIZE -1
+
+-- Ignore Ctrl-D 10 times
+\set IGNOREEOF 10
+
+-- Use less for paging
+\setenv PAGER less
+
+-- less options: case insensitive, verbose prompt, tabs are 4 spaces, quit if
+-- one screen
+\setenv LESS -iMx4F
+
+-- Expand output when appropriate
+\x auto
+
+-- Set encoding
+SET CLIENT_ENCODING TO 'UTF8';
+
+-- Use proper timezone
+SET TIMEZONE TO 'America/Toronto';

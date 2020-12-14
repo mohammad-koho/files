@@ -1,0 +1,12 @@
+
+-- TUNNEL INTO PROD BASTION
+ssh -L 127.0.0.1:5432:10.2.14.212:5432 mohammad@54.200.118.250
+
+
+-- ASSUME AWS PROFILE
+source aws-assume-profile prodreaddbprocessors
+
+-- CONNECT TO PROD PROCESSORS READ DB
+export RDSHOST="processors-prod.csjphcki1km6.us-west-2.rds.amazonaws.com"
+export PGPASSWORD="$(aws rds generate-db-auth-token --hostname $RDSHOST --port 5432 --region us-west-2 --username koho_reader)"
+psql "host=$RDSHOST port=5432 sslmode=verify-full sslrootcert=$HOME/.ssh/rds-ca-2019-root.pem dbname=processors user=koho_reader"
